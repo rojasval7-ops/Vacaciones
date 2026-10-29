@@ -385,8 +385,8 @@ footer{color:var(--muted);font-size:12px;text-align:center;padding:10px 0 28px}
 <script>
 /* ======================= Configuración ======================= */
 const CONFIG = {
-  SUPABASE_URL: 'https://dnzjbfoardqzbtatwyki.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRuempiZm9hcmRxemJ0YXR3eWtpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0MTk4MjcsImV4cCI6MjEwNzk5NTgyN30.qN7vZLqgzx9_4YZBkR1qFeWv1vyPIIs2C1I-_u8xLgQ',
+  SUPABASE_URL: 'https://tposiimdnzzxmwjdxcdp.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwb3NpaW1kbnp6eG13amR4Y2RwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyNjk5MjYsImV4cCI6MjEwODg0NTkyNn0.sALnJrcwDoQQMWkgoTMJJfcF1sSzpEJZ7OPAK1F2SNE',
   TABLE: 'vacaciones_ausencias'
 };
 
@@ -491,9 +491,17 @@ const store = {
     showGate();
   },
   async login(clave, silent){
-    const { data, error } = await this.sb.rpc('vac_list', { p_clave: clave });
+    let data, error;
+    try { ({ data, error } = await this.sb.rpc('vac_list', { p_clave: clave })); }
+    catch (e){ error = { message: e?.message || 'sin conexión' }; }
     if (error){
-      if (!silent) gateError(String(error.message||'').includes('clave_incorrecta') ? 'Clave incorrecta.' : 'No se pudo conectar. Revisa la conexión.');
+      if (!silent){
+        const msg = String(error.message||'');
+        if (msg.includes('clave_incorrecta')) gateError('Clave incorrecta.');
+        else if (error.code === 'PGRST202' || /function|schema cache/i.test(msg)) gateError('La base de datos no está preparada: falta ejecutar supabase.sql en Supabase. (' + msg + ')');
+        else gateError('No se pudo conectar con la base de datos. (' + (error.code ? error.code + ': ' : '') + msg + ')');
+      }
+      console.error('Login error', error);
       return false;
     }
     this.clave = clave; this.mode = 'db';
@@ -558,7 +566,7 @@ function logout(){
 }
 $('#gateForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const pw = $('#gatePw').value; if (!pw) return;
+  const pw = $('#gatePw').value.trim(); if (!pw) return;
   const btn = $('#gateBtn'); btn.disabled = true; btn.textContent = 'Comprobando…'; $('#gateErr').hidden = true;
   const ok = await store.login(pw);
   btn.disabled = false; btn.textContent = 'Entrar';
