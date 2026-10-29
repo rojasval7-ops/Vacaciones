@@ -235,12 +235,25 @@ label.f{display:grid;gap:6px;font-size:12px;font-weight:700;letter-spacing:.08em
 .check{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
 .logout{background:transparent;border:0;color:rgba(255,255,255,.75);font-size:12px;font-weight:600;text-decoration:underline;padding:0}
 body.locked{overflow:hidden}
+.ico{width:14px;height:14px;flex:none;vertical-align:-2px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tele-bg{background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--c) 20%, var(--surface)) 0 5px, color-mix(in srgb, var(--c) 42%, var(--surface)) 5px 10px)}
+.seg.tele{color:var(--text);border-left:3px solid var(--c);box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--c) 45%, transparent)}
+.seg.tele.cl{border-left:0}
+.seg .ico{margin-right:5px}
+.tl .d .bar.tele{border:1px solid color-mix(in srgb, var(--c) 55%, transparent)}
+.md .dots i.tele{background:transparent;box-shadow:inset 0 0 0 1.4px var(--c)}
+.entry.tele{border-left-style:dashed}
+.entry.tele .av{background:color-mix(in srgb, var(--c) 18%, var(--surface));color:var(--c);box-shadow:inset 0 0 0 2px var(--c)}
+.tp.tele{display:inline-flex;align-items:center;gap:5px;background:color-mix(in srgb, var(--c) 16%, var(--surface));color:var(--text)}
+.types button .ico{margin-right:5px}
+.drow.tele{border-left-style:dashed}
 footer{color:var(--muted);font-size:12px;text-align:center;padding:10px 0 28px}
 
 @media (max-width: 720px){
   .cell{min-height:74px;padding:4px}
   .bars{top:36px;grid-auto-rows:7px;row-gap:2px}
   .seg{height:7px;font-size:0;padding:0;margin:0 3px;border-radius:4px}
+  .seg .ico{display:none}
   .cell .holname{font-size:8.5px}
   .dow div{padding:6px 4px;text-align:center}
   .month-title h2{font-size:32px}
@@ -325,6 +338,7 @@ footer{color:var(--muted);font-size:12px;text-align:center;padding:10px 0 28px}
         <div class="legend">
           <div><span class="sw" style="background:var(--hol)"></span>Festivo en Barcelona</div>
           <div><span class="sw" style="background:var(--weekend)"></span>Fin de semana</div>
+          <div><span class="sw tele-bg" style="--c:var(--accent)"></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><rect x="8.5" y="11.5" width="7" height="4.6" rx=".8"/><path d="M10.5 18.2h3"/></svg> Teletrabajo (rayado, color claro)</div>
           <div><span class="sw" style="background:var(--warn-bg);border-color:var(--warn)"></span>3 o más personas fuera</div>
           <div><span class="sw" style="background:transparent;border:2px solid var(--gold)"></span>Mes en curso</div>
         </div>
@@ -408,6 +422,13 @@ const TEAM = [
 ];
 const COLOR = Object.fromEntries(TEAM.map(p=>[p.n,p.c]));
 const TYPES = ['Vacaciones','Otros'];
+const TELE = 'Teletrabajo';
+const TELE_OK = new Set(['Eulàlia','Roger','Jorge','Mireia','Luis','Duna']);
+const typesFor = p => TELE_OK.has(p) ? ['Vacaciones', TELE, 'Otros'] : TYPES;
+const isTele = e => e && e.tipo === TELE;
+const ICON_TELE = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><rect x="8.5" y="11.5" width="7" height="4.6" rx=".8"/><path d="M10.5 18.2h3"/></svg>';
+const awayOn = k => [...new Set((byDay[k]||[]).filter(e=>!isTele(e)).map(e=>e.persona))];
+const teleOn = k => [...new Set((byDay[k]||[]).filter(isTele).map(e=>e.persona))];
 
 /* Festivos laborales en Barcelona: los de Catalunya + 2 locales por año */
 const HOLIDAYS = {
@@ -606,9 +627,10 @@ function render(){
 function renderToday(){
   const d = NOW;
   $('#todayLbl').textContent = `${['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][d.getDay()]} ${d.getDate()} de ${MONTHS[d.getMonth()].toLowerCase()}`;
-  const out = [...new Set((byDay[TODAY]||[]).map(e=>e.persona))];
+  const out = awayOn(TODAY), tele = teleOn(TODAY);
   const hol = HOLIDAYS[TODAY];
-  $('#todayWho').textContent = hol ? `Festivo: ${hol}` : (out.length ? `Fuera hoy: ${out.join(', ')}` : 'Todo el equipo disponible hoy');
+  $('#todayWho').textContent = hol ? `Festivo: ${hol}` :
+    [out.length ? `Fuera hoy: ${out.join(', ')}` : 'Nadie de vacaciones hoy', tele.length ? `Teletrabajo: ${tele.join(', ')}` : ''].filter(Boolean).join(' · ');
 }
 
 function renderTeam(){
@@ -669,7 +691,7 @@ function renderCal(y,m){
       const hol = HOLIDAYS[k];
       const people = [...new Set((byDay[k]||[]).map(e=>e.persona))];
       const cls = ['cell', !inMonth&&'out', isWeekend(dt)&&'we', hol&&'hol', k===TODAY&&'today'].filter(Boolean).join(' ');
-      const workCount = (!isWeekend(dt) && !hol) ? people.length : 0;
+      const workCount = (!isWeekend(dt) && !hol) ? awayOn(k).length : 0;
       cells += `<button type="button" class="${cls}" style="min-height:${minH}px" data-day="${k}" ${inMonth?'':'tabindex="-1"'} aria-label="${dt.getDate()} ${MONTHS[dt.getMonth()]}${hol?', festivo '+esc(hol):''}${people.length?', fuera: '+esc(people.join(', ')):''}">
         <div class="num"><span>${dt.getDate()}</span>${workCount?`<span class="cnt ${workCount>=3?'hi':''}">${workCount} fuera</span>`:''}</div>
         ${hol?`<div class="holname">${esc(hol)}</div>`:''}
@@ -679,7 +701,8 @@ function renderCal(y,m){
     const bars = shown.map(s => {
       const p = s.e.persona;
       const n = workdays(s.e.desde, s.e.hasta);
-      return `<div class="seg ${s.cl?'cl':''} ${s.cr?'cr':''} ${filter && filter!==p?'dim':''}" style="--c:${COLOR[p]||'#888'};grid-column:${s.col+1} / span ${s.span};grid-row:${s.lane+1}">${esc(p)}${s.span>1 && !s.cl?`<small>${esc(fmtShort(s.e.desde))} → ${esc(fmtShort(s.e.hasta))} · ${n} d</small>`:''}</div>`;
+      const tl = isTele(s.e);
+      return `<div class="seg ${tl?'tele tele-bg':''} ${s.cl?'cl':''} ${s.cr?'cr':''} ${filter && filter!==p?'dim':''}" style="--c:${COLOR[p]||'#888'};grid-column:${s.col+1} / span ${s.span};grid-row:${s.lane+1}" title="${esc(p)} · ${esc(s.e.tipo||'Vacaciones')}${s.e.nota?' · '+esc(s.e.nota):''}">${tl?ICON_TELE:''}${esc(p)}${s.span>1 && !s.cl?`<small>${esc(fmtShort(s.e.desde))} → ${esc(fmtShort(s.e.hasta))} · ${n} d</small>`:''}</div>`;
     }).join('');
     html += `<div class="week">${cells}<div class="bars">${bars}</div></div>`;
   }
@@ -698,11 +721,12 @@ function renderTimeline(y,m){
     h += `<div class="name ${dimRow}"><span class="av" style="background:${p.c}">${esc(initials(p.n))}</span>${esc(p.n)}</div>`;
     for (let d=1; d<=days; d++){
       const dt = new Date(y,m,d), k = isoOf(dt);
-      const has = (byDay[k]||[]).some(e=>e.persona===p.n);
+      const ent = (byDay[k]||[]).find(e=>e.persona===p.n);
+      const has = !!ent;
       const prev = has && (byDay[isoOf(new Date(y,m,d-1))]||[]).some(e=>e.persona===p.n);
       const next = has && (byDay[isoOf(new Date(y,m,d+1))]||[]).some(e=>e.persona===p.n);
       const cls = ['d', isWeekend(dt)&&'we', HOLIDAYS[k]&&'hol', has&&!prev&&'start', has&&!next&&'end', dimRow].filter(Boolean).join(' ');
-      h += `<div class="${cls}" style="--c:${p.c}" data-day="${k}">${has?'<div class="bar"></div>':''}</div>`;
+      h += `<div class="${cls}" style="--c:${p.c}" data-day="${k}">${has?`<div class="bar ${isTele(ent)?'tele tele-bg':''}" title="${esc(ent.tipo||'Vacaciones')}"></div>`:''}</div>`;
     }
   }
   $('#tlView').innerHTML = h + '</div>';
@@ -710,7 +734,7 @@ function renderTimeline(y,m){
 
 function renderPeople(){
   $('#people').innerHTML = TEAM.map(p => {
-    const mine = entries.filter(e=>e.persona===p.n);
+    const mine = entries.filter(e=>e.persona===p.n && !isTele(e));
     const inYear = y => mine.reduce((s,e)=>{
       const a = e.desde > `${y}-01-01` ? e.desde : `${y}-01-01`;
       const b = e.hasta < `${y}-12-31` ? e.hasta : `${y}-12-31`;
@@ -734,11 +758,12 @@ function renderYear(){
     const monthPeople = new Set();
     for (let d=1; d<=days; d++){
       const dt = new Date(Y,m,d), k = isoOf(dt);
-      let people = [...new Set((byDay[k]||[]).map(e=>e.persona))];
-      people.forEach(p=>monthPeople.add(p));
-      if (filter) people = people.filter(p=>p===filter);
+      let dayEnts = [...new Map((byDay[k]||[]).map(e=>[e.persona,e])).values()];
+      dayEnts.forEach(e=>{ if (!isTele(e)) monthPeople.add(e.persona); });
+      if (filter) dayEnts = dayEnts.filter(e=>e.persona===filter);
+      const people = dayEnts.map(e=>e.persona + (isTele(e)?' (teletrabajo)':''));
       const hol = HOLIDAYS[k];
-      const dots = people.slice(0,3).map(p=>`<i style="--c:${COLOR[p]}"></i>`).join('');
+      const dots = dayEnts.slice(0,3).map(e=>`<i class="${isTele(e)?'tele':''}" style="--c:${COLOR[e.persona]}"></i>`).join('');
       cells += `<div class="md ${isWeekend(dt)?'we':''} ${hol?'hol':''} ${k===TODAY?'today':''} ${people.length?'busy':''}" title="${hol?esc(hol):''}${people.length?(hol?' · ':'')+esc(people.join(', ')):''}">${d}<span class="dots">${dots}</span></div>`;
     }
     const idx = mIdx(Y,m);
@@ -757,11 +782,12 @@ function renderList(){
   $('#list').innerHTML = shown.map(e => {
     const n = workdays(e.desde,e.hasta);
     const past = e.hasta < TODAY;
-    return `<div class="entry" style="--c:${COLOR[e.persona]||'#888'};${past?'opacity:.6':''}">
+    const tl = isTele(e);
+    return `<div class="entry ${tl?'tele':''}" style="--c:${COLOR[e.persona]||'#888'};${past?'opacity:.6':''}">
       <span class="av">${esc(initials(e.persona||'?'))}</span>
       <div class="info"><div class="t1">${esc(e.persona)} · ${e.desde===e.hasta?esc(fmtShort(e.desde)):esc(fmtShort(e.desde))+' → '+esc(fmtShort(e.hasta))}</div>
-      <div class="t2">${n} día${n!==1?'s':''} laborable${n!==1?'s':''}${e.nota?' · '+esc(e.nota):''}</div></div>
-      <span class="tp">${esc(e.tipo||'Vacaciones')}</span>
+      <div class="t2">${n} día${n!==1?'s':''} ${tl?'de teletrabajo':'laborable'+(n!==1?'s':'')}${e.nota?' · '+esc(e.nota):''}</div></div>
+      <span class="tp ${tl?'tele':''}">${tl?ICON_TELE:''}${esc(e.tipo||'Vacaciones')}</span>
       <button type="button" class="icon-btn" data-del="${esc(e.id)}" aria-label="Borrar periodo" title="Borrar periodo">✕</button>
     </div>`;
   }).join('');
@@ -790,9 +816,9 @@ function drawDayBox(){
   const list = modalDay ? [...new Map((byDay[modalDay]||[]).map(e=>[e.persona,e])).values()] : [];
   if (!list.length){ box.hidden = true; box.innerHTML = ''; return; }
   box.hidden = false;
-  box.innerHTML = `<div class="dbt">Fuera el ${esc(fmtShort(modalDay))}</div>` + list.map(e =>
-    `<div class="drow" style="--c:${COLOR[e.persona]||'#888'}">
-      <span class="dn">${esc(e.persona)}<small>${esc(fmtShort(e.desde))}${e.desde!==e.hasta?' → '+esc(fmtShort(e.hasta)):''} · ${esc(e.tipo||'Vacaciones')}</small></span>
+  box.innerHTML = `<div class="dbt">Apuntados el ${esc(fmtShort(modalDay))}</div>` + list.map(e =>
+    `<div class="drow ${isTele(e)?'tele':''}" style="--c:${COLOR[e.persona]||'#888'}">
+      <span class="dn">${isTele(e)?ICON_TELE+' ':''}${esc(e.persona)}<small>${esc(fmtShort(e.desde))}${e.desde!==e.hasta?' → '+esc(fmtShort(e.hasta)):''} · ${esc(e.tipo||'Vacaciones')}</small></span>
       <button type="button" class="sbtn" data-rmday="${esc(e.persona)}">Quitar este día</button>
       ${e.desde!==e.hasta?`<button type="button" class="sbtn" data-rmall="${esc(e.id)}">Borrar todo el periodo</button>`:''}
     </div>`).join('');
@@ -807,7 +833,10 @@ function drawForm(){
   const sv = $('#save'); sv.textContent = del ? 'Quitar días' : 'Guardar';
   sv.classList.toggle('btn-grana', del); sv.classList.toggle('btn-blau', !del);
   $('#whoGrid').innerHTML = TEAM.map(p=>`<button type="button" class="${form.persona===p.n?'on':''}" style="--c:${p.c}" data-who="${esc(p.n)}"><span class="av" style="background:${p.c}">${esc(initials(p.n))}</span>${esc(p.n)}</button>`).join('');
-  $('#types').innerHTML = TYPES.map(t=>`<button type="button" class="${form.tipo===t?'on':''}" data-t="${esc(t)}">${esc(t)}</button>`).join('');
+  const opts = typesFor(form.persona);
+  if (!opts.includes(form.tipo)) form.tipo = 'Vacaciones';
+  $('#types').innerHTML = opts.map(t=>`<button type="button" class="${form.tipo===t?'on':''}" data-t="${esc(t)}">${t===TELE?ICON_TELE:''}${esc(t)}</button>`).join('');
+  $('#mdlTitle').textContent = del ? 'Quitar días' : (form.tipo===TELE ? 'Añadir teletrabajo' : 'Añadir días fuera');
   drawSummary();
 }
 
@@ -826,8 +855,8 @@ function drawSummary(){
   const hols = Object.keys(HOLIDAYS).filter(k=>k>=a && k<=b && !isWeekend(parse(k)));
   const others = new Set();
   const d = parse(a), e = parse(b);
-  while (d<=e){ (byDay[isoOf(d)]||[]).forEach(x=>{ if (x.persona!==form.persona) others.add(x.persona); }); d.setDate(d.getDate()+1); }
-  $('#sum').innerHTML = `<b>${n} día${n!==1?'s':''} laborable${n!==1?'s':''}</b> · ${cal} natural${cal!==1?'es':''}` +
+  while (d<=e){ (byDay[isoOf(d)]||[]).forEach(x=>{ if (x.persona!==form.persona && !isTele(x)) others.add(x.persona); }); d.setDate(d.getDate()+1); }
+  $('#sum').innerHTML = `<b>${n} día${n!==1?'s':''} ${form.tipo===TELE?'de teletrabajo':'laborable'+(n!==1?'s':'')}</b> · ${cal} natural${cal!==1?'es':''}` +
     (hols.length?`<div>Incluye festivo: ${hols.map(k=>esc(HOLIDAYS[k])).join(', ')} (no cuenta)</div>`:'') +
     (others.size?`<div class="warn">Coincides con: ${esc([...others].join(', '))}</div>`:'');
 }
@@ -851,6 +880,7 @@ async function save(){
     } else {
       const dup = entries.some(e=>e.persona===form.persona && !(b < e.desde || a > e.hasta));
       if (dup) return fail(`${form.persona} ya tiene días apuntados que se solapan con estas fechas. Quítalos primero o elige otras fechas.`);
+      if (form.tipo===TELE && !TELE_OK.has(form.persona)) return fail('Teletrabajo no está disponible para esta persona.');
       await store.add({ persona:form.persona, desde:a, hasta:b, tipo:form.tipo, nota:$('#fNote').value.trim().slice(0,80), creado:Date.now() });
       closeModal();
       viewIdx = mIdx(parse(a).getFullYear(), parse(a).getMonth()); yearShown = parse(a).getFullYear();
