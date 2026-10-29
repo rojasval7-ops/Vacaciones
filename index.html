@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vacaciones del equipo 2026–2027 | FC Barcelona Hospitality</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --blau:#004D98; --blau-deep:#00224A; --grana:#A50044; --gold:#EDBB00;
+  --bg:#F3F6FB; --surface:#FFFFFF; --surface-2:#E7EDF6; --text:#0E1B2E; --muted:#56667D; --line:#D3DCE8;
+  --accent:#004D98; --hol:#A50044; --hol-bg:#FBE6EE; --weekend:#EEF2F8; --warn:#B86E00; --warn-bg:#FFF3D6;
+  --display:'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+  --body:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#06142A; --surface:#0D2142; --surface-2:#163056; --text:#EEF2F8; --muted:#9CABC2; --line:#26446F;
+    --accent:#6FB0F5; --hol:#FF6B9A; --hol-bg:#3A1230; --weekend:#0A1B37; --warn:#FFC24D; --warn-bg:#3A2A0A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#06142A; --surface:#0D2142; --surface-2:#163056; --text:#EEF2F8; --muted:#9CABC2; --line:#26446F;
+  --accent:#6FB0F5; --hol:#FF6B9A; --hol-bg:#3A1230; --weekend:#0A1B37; --warn:#FFC24D; --warn-bg:#3A2A0A;
+  color-scheme: dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+button{font:inherit;cursor:pointer}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;color:#fff;overflow:hidden;
+  background:
+    linear-gradient(100deg, rgba(0,34,74,.94) 0%, rgba(0,34,74,.80) 45%, rgba(0,34,74,.35) 100%),
+    repeating-linear-gradient(90deg, var(--blau) 0 46px, var(--grana) 46px 92px);
+}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:6px;background:linear-gradient(90deg,var(--blau) 0 33%,var(--gold) 33% 66%,var(--grana) 66%)}
+.hero .wrap{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;padding:34px 0 36px}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--gold)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,7vw,78px);line-height:.92;margin:6px 0 8px;letter-spacing:.01em}
+.hero p{margin:0;max-width:520px;color:rgba(255,255,255,.85)}
+.hero-side{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.today-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:12px 16px;min-width:240px;backdrop-filter:blur(6px)}
+.today-card .lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.today-card .val{font-family:var(--display);font-size:28px;line-height:1.05}
+.today-card .who{font-size:13px;color:rgba(255,255,255,.88);margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:12px 20px;font-weight:700;letter-spacing:.02em}
+.btn-gold{background:var(--gold);color:#0E1B2E}
+.btn-gold:hover{filter:brightness(1.06)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn-blau{background:var(--blau);color:#fff}
+.btn:focus-visible,.chip:focus-visible,.mini:focus-visible,.cell:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+.demo{background:var(--warn-bg);color:var(--warn);font-size:13px;text-align:center;padding:8px 16px;font-weight:600}
+
+/* ---------- Team chips ---------- */
+.team{display:flex;flex-wrap:wrap;gap:8px;padding:20px 0 6px;align-items:center}
+.team .t-lbl{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:600;margin-right:4px}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:999px;padding:6px 12px 6px 6px;font-size:13px;font-weight:600;transition:transform .12s, box-shadow .12s, opacity .12s}
+.chip .av{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700}
+.chip .n{font-weight:500;color:var(--muted);font-size:12px}
+.chip.on{box-shadow:0 0 0 2px var(--c) inset;}
+.team.filtering .chip:not(.on){opacity:.45}
+.chip.all{padding:6px 14px}
+
+/* ---------- Month (main) ---------- */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.month-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.month-title{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.month-title h2{font-family:var(--display);font-weight:400;font-size:40px;line-height:1;margin:0;letter-spacing:.02em}
+.badge-now{background:var(--gold);color:#0E1B2E;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border-radius:6px;padding:3px 8px}
+.nav{display:flex;gap:6px;align-items:center}
+.nav button{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;height:38px;min-width:38px;padding:0 12px;font-weight:600}
+.nav button:hover{background:var(--surface-2)}
+.views{display:inline-flex;background:var(--surface-2);border-radius:10px;padding:3px}
+.views button{border:0;background:transparent;color:var(--muted);padding:6px 12px;border-radius:8px;font-weight:600;font-size:13px}
+.views button.on{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+.dow{display:grid;grid-template-columns:repeat(7,1fr);background:var(--surface-2);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.dow div{padding:8px 10px}
+.grid{display:block}
+.week{position:relative;display:grid;grid-template-columns:repeat(7,1fr)}
+.bars{position:absolute;left:0;right:0;top:46px;display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:21px;row-gap:3px;pointer-events:none}
+.seg{height:21px;line-height:21px;margin:0 5px;padding:0 8px;border-radius:7px;background:var(--c);color:#fff;font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.seg.cl{margin-left:0;border-top-left-radius:0;border-bottom-left-radius:0}
+.seg.cr{margin-right:0;border-top-right-radius:0;border-bottom-right-radius:0}
+.seg.dim{opacity:.22}
+.seg small{font-weight:500;opacity:.85;margin-left:4px}
+.cell .more{margin-top:auto}
+.cell{min-height:118px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:6px 6px 8px;position:relative;background:var(--surface);text-align:left;border-top:0;border-left:0;color:inherit;display:flex;flex-direction:column;gap:3px;min-width:0}
+.cell:nth-child(7n){border-right:0}
+.cell.out{background:var(--bg);opacity:.45}
+.cell.we{background:var(--weekend)}
+.cell.hol{background:var(--hol-bg)}
+.cell:hover:not(.out){box-shadow:inset 0 0 0 2px var(--accent)}
+.cell .num{font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:space-between;gap:4px}
+.cell.today .num span:first-child{background:var(--grana);color:#fff;border-radius:999px;min-width:26px;height:26px;display:inline-grid;place-items:center;padding:0 6px}
+.cell .holname{font-size:10.5px;font-weight:700;color:var(--hol);line-height:1.2;text-transform:uppercase;letter-spacing:.04em}
+.cnt{font-size:10px;font-weight:700;border-radius:6px;padding:1px 6px;background:var(--surface-2);color:var(--muted)}
+.cnt.hi{background:var(--warn-bg);color:var(--warn)}
+.pill{display:flex;align-items:center;gap:5px;border-radius:6px;padding:2px 6px;font-size:11.5px;font-weight:600;color:#fff;background:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill.dim{opacity:.25}
+.more{font-size:11px;color:var(--muted);font-weight:600;padding-left:2px}
+
+/* team timeline view */
+.tl-scroll{overflow-x:auto}
+.tl{display:grid;min-width:880px}
+.tl .h{font-size:10px;font-weight:700;color:var(--muted);text-align:center;padding:8px 0;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.tl .h.we{color:var(--muted);opacity:.6}
+.tl .h.hol{color:var(--hol)}
+.tl .h.today{background:var(--grana);color:#fff}
+.tl .name{position:sticky;left:0;background:var(--surface);z-index:1;display:flex;align-items:center;gap:8px;padding:6px 10px;font-weight:600;font-size:13px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.tl .name .av{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:10px;font-weight:700;flex:none}
+.tl .d{border-bottom:1px solid var(--line);border-right:1px solid var(--line);min-height:36px;display:grid;place-items:center;padding:4px 1px}
+.tl .d.we{background:var(--weekend)}
+.tl .d.hol{background:var(--hol-bg)}
+.tl .d .bar{width:100%;height:20px;border-radius:4px;background:var(--c)}
+.tl .d.start .bar{border-top-left-radius:10px;border-bottom-left-radius:10px;margin-left:2px}
+.tl .d.end .bar{border-top-right-radius:10px;border-bottom-right-radius:10px;margin-right:2px}
+.tl-row-dim{opacity:.3}
+
+/* ---------- Layout ---------- */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;padding:14px 0 20px;align-items:start}
+@media (max-width: 980px){.layout{grid-template-columns:1fr}}
+.side{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
+.card h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0 0 10px;letter-spacing:.03em}
+.legend{display:grid;gap:8px;font-size:13px}
+.legend .sw{width:16px;height:16px;border-radius:4px;display:inline-block;vertical-align:-3px;margin-right:8px;border:1px solid var(--line)}
+.people{display:grid;gap:4px}
+.prow{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:10px;border:0;background:transparent;color:inherit;text-align:left;width:100%}
+.prow:hover{background:var(--surface-2)}
+.prow .av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;flex:none}
+.prow .nm{flex:1;font-weight:600;font-size:14px}
+.prow .ds{font-size:12px;color:var(--muted);font-weight:600}
+.prow .nx{display:block;font-size:11.5px;color:var(--muted);font-weight:500}
+
+/* ---------- Year ---------- */
+.sec-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:18px 0 12px;flex-wrap:wrap}
+.sec-title h2{font-family:var(--display);font-weight:400;font-size:40px;margin:0;line-height:1;letter-spacing:.02em}
+.sec-title p{margin:0;color:var(--muted);font-size:13px}
+.year{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;padding-bottom:20px}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 12px 14px;text-align:left;color:inherit;position:relative;transition:transform .15s, box-shadow .15s}
+.mini:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,34,74,.12)}
+.mini.current{border:2px solid var(--gold);box-shadow:0 0 0 4px rgba(237,187,0,.18)}
+.mini.sel:not(.current){border-color:var(--accent)}
+.mini .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.mini .mn{font-family:var(--display);font-size:24px;letter-spacing:.04em;line-height:1}
+.mini .tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--gold);color:#0E1B2E;border-radius:5px;padding:2px 6px}
+.mini .tot{font-size:11px;color:var(--muted);font-weight:600}
+.mg{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.mg .w{font-size:9px;text-align:center;color:var(--muted);font-weight:700}
+.md{aspect-ratio:1/1;border-radius:6px;font-size:10.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;gap:1px}
+.md.we{color:var(--muted);opacity:.7}
+.md.hol{background:var(--hol);color:#fff;opacity:1}
+.md.today{outline:2px solid var(--grana);outline-offset:-1px}
+.md .dots{display:flex;gap:1px;height:4px}
+.md .dots i{width:4px;height:4px;border-radius:50%;background:var(--c)}
+.md.busy{background:var(--surface-2)}
+.md.busy.hol{background:var(--hol)}
+
+/* ---------- List ---------- */
+.list{display:grid;gap:8px}
+.entry{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:12px;padding:10px 12px}
+.entry .av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;background:var(--c);flex:none}
+.entry .info{flex:1;min-width:0}
+.entry .t1{font-weight:700}
+.entry .t2{font-size:13px;color:var(--muted)}
+.entry .tp{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:2px 7px;background:var(--surface-2);color:var(--muted);white-space:nowrap}
+.icon-btn{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:8px;width:34px;height:34px;display:grid;place-items:center;flex:none}
+.icon-btn:hover{color:var(--grana);border-color:var(--grana)}
+.empty{color:var(--muted);font-size:14px;padding:16px;border:1px dashed var(--line);border-radius:12px;text-align:center}
+
+/* ---------- Modal ---------- */
+.overlay{position:fixed;inset:0;background:rgba(0,20,45,.55);display:grid;place-items:center;padding:16px;z-index:50;backdrop-filter:blur(3px)}
+.modal{background:var(--surface);color:var(--text);border-radius:20px;width:min(480px,100%);max-height:calc(100% - 20px);overflow:auto;box-shadow:0 30px 60px rgba(0,0,0,.35)}
+.modal-h{background:linear-gradient(100deg,var(--blau-deep),var(--blau));color:#fff;padding:18px 20px;position:relative}
+.modal-h::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--blau) 0 33%,var(--gold) 33% 66%,var(--grana) 66%)}
+.modal-h h3{font-family:var(--display);font-weight:400;font-size:32px;margin:0;line-height:1}
+.modal-h p{margin:4px 0 0;font-size:13px;color:rgba(255,255,255,.8)}
+.modal-b{padding:18px 20px 20px;display:grid;gap:14px}
+label.f{display:grid;gap:6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.f input,.f select,.f textarea{font:inherit;font-size:15px;text-transform:none;letter-spacing:0;font-weight:500;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+.f input:focus,.f select:focus,.f textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.who-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px}
+.who-grid button{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:10px;padding:6px 8px;font-size:13px;font-weight:600;text-transform:none;letter-spacing:0}
+.who-grid button .av{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:9px;font-weight:700;flex:none}
+.who-grid button.on{border-color:var(--c);box-shadow:inset 0 0 0 2px var(--c);background:var(--surface)}
+.types{display:flex;gap:6px;flex-wrap:wrap}
+.types button{border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;text-transform:none;letter-spacing:0}
+.types button.on{background:var(--blau);border-color:var(--blau);color:#fff}
+.summary{background:var(--surface-2);border-radius:12px;padding:10px 12px;font-size:13px}
+.summary b{font-size:15px}
+.summary .warn{color:var(--warn);font-weight:600;margin-top:4px}
+.modal-f{display:flex;gap:10px;justify-content:flex-end}
+.err{color:var(--grana);font-size:13px;font-weight:600}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--blau-deep);color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;font-size:14px;z-index:60;box-shadow:0 10px 30px rgba(0,0,0,.3);border-left:4px solid var(--gold)}
+
+.mode{display:flex}.mode button{flex:1;padding:9px 12px;font-size:14px}
+.mode button.on[data-mode="del"]{background:var(--grana);color:#fff}
+#dayBox{background:var(--surface-2);border-radius:14px;padding:12px;display:grid;gap:8px}
+#dayBox .dbt{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.drow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--surface);border-radius:10px;padding:8px 10px;border-left:4px solid var(--c)}
+.drow .dn{font-weight:700;flex:1;min-width:110px}
+.drow .dn small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.sbtn{border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600}
+.sbtn:hover{border-color:var(--grana);color:var(--grana)}
+.btn-grana{background:var(--grana);color:#fff}
+.gate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;
+  background:linear-gradient(110deg, rgba(0,34,74,.95) 0%, rgba(0,34,74,.85) 50%, rgba(0,34,74,.6) 100%),
+  repeating-linear-gradient(90deg, var(--blau) 0 46px, var(--grana) 46px 92px)}
+.gate-card{background:var(--surface);color:var(--text);width:min(400px,100%);border-radius:20px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.gate-top{background:linear-gradient(100deg,var(--blau-deep),var(--blau));color:#fff;padding:22px 22px 20px;position:relative}
+.gate-top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--blau) 0 33%,var(--gold) 33% 66%,var(--grana) 66%)}
+.gate-top .eyebrow{font-size:11px}
+.gate-top h2{font-family:var(--display);font-weight:400;font-size:40px;line-height:.95;margin:6px 0 0}
+.gate-b{padding:20px 22px 22px;display:grid;gap:14px}
+.pw{position:relative}
+.pw input{padding-right:70px}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--accent);font-weight:600;font-size:13px;padding:6px 8px}
+.gate .btn{justify-content:center;width:100%}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.logout{background:transparent;border:0;color:rgba(255,255,255,.75);font-size:12px;font-weight:600;text-decoration:underline;padding:0}
+body.locked{overflow:hidden}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:10px 0 28px}
+
+@media (max-width: 720px){
+  .cell{min-height:74px;padding:4px}
+  .bars{top:36px;grid-auto-rows:7px;row-gap:2px}
+  .seg{height:7px;font-size:0;padding:0;margin:0 3px;border-radius:4px}
+  .cell .holname{font-size:8.5px}
+  .dow div{padding:6px 4px;text-align:center}
+  .month-title h2{font-size:32px}
+  .hero-side{align-items:stretch;width:100%}
+  .row2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate" hidden>
+  <div class="gate-card" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <div class="gate-top">
+      <div class="eyebrow">FC Barcelona · VIP Hospitality</div>
+      <h2 id="gateTitle">Vacaciones<br>del equipo</h2>
+    </div>
+    <form class="gate-b" id="gateForm" autocomplete="on">
+      <label class="f">Clave de acceso
+        <span class="pw"><input type="password" id="gatePw" autocomplete="current-password" required><button type="button" id="gateShow">Ver</button></span>
+      </label>
+      <label class="check"><input type="checkbox" id="gateRemember" checked> Recordar en este dispositivo</label>
+      <div class="err" id="gateErr" hidden></div>
+      <button type="submit" class="btn btn-blau" id="gateBtn">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">FC Barcelona · VIP Hospitality · Equipo comercial · 2026–2027</div>
+      <h1>Vacaciones<br>del equipo</h1>
+      <p>Apunta tus días fuera y consulta de un vistazo quién está y quién no. Festivos de Barcelona incluidos.</p>
+    </div>
+    <div class="hero-side">
+      <div class="today-card">
+        <div class="lbl">Hoy</div>
+        <div class="val" id="todayLbl">—</div>
+        <div class="who" id="todayWho">—</div>
+      </div>
+      <button class="btn btn-gold" id="addBtn" type="button">＋ Añadir mis días fuera</button>
+      <button class="logout" id="logoutBtn" type="button" hidden>Cerrar sesión</button>
+    </div>
+  </div>
+</header>
+<div class="demo" id="demoBar" hidden>Modo demo: no hay conexión con la base de datos, los cambios solo se guardan en este navegador.</div>
+
+<main class="wrap">
+  <div class="team" id="team"></div>
+
+  <div class="layout">
+    <section class="panel" aria-label="Mes">
+      <div class="month-head">
+        <div class="month-title">
+          <h2 id="mTitle">—</h2>
+          <span class="badge-now" id="mNow" hidden>Mes en curso</span>
+        </div>
+        <div class="nav">
+          <div class="views" role="tablist">
+            <button type="button" class="on" data-view="cal">Calendario</button>
+            <button type="button" data-view="tl">Por persona</button>
+          </div>
+          <button type="button" id="prev" aria-label="Mes anterior">‹</button>
+          <button type="button" id="goNow">Hoy</button>
+          <button type="button" id="next" aria-label="Mes siguiente">›</button>
+        </div>
+      </div>
+      <div id="calView">
+        <div class="dow"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div>
+        <div class="grid" id="grid"></div>
+      </div>
+      <div id="tlView" class="tl-scroll" hidden></div>
+    </section>
+
+    <aside class="side">
+      <div class="card">
+        <h3>Días laborables fuera · 2026 · 2027</h3>
+        <div class="people" id="people"></div>
+      </div>
+      <div class="card">
+        <h3>Leyenda</h3>
+        <div class="legend">
+          <div><span class="sw" style="background:var(--hol)"></span>Festivo en Barcelona</div>
+          <div><span class="sw" style="background:var(--weekend)"></span>Fin de semana</div>
+          <div><span class="sw" style="background:var(--warn-bg);border-color:var(--warn)"></span>3 o más personas fuera</div>
+          <div><span class="sw" style="background:transparent;border:2px solid var(--gold)"></span>Mes en curso</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="sec-title">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><h2 id="yTitle">Año 2026</h2>
+      <div class="views" id="yearTabs"><button type="button" data-y="2026">2026</button><button type="button" data-y="2027">2027</button></div></div>
+    <p>Toca un mes para verlo en grande. El mes en curso va marcado en dorado.</p>
+  </div>
+  <div class="year" id="year"></div>
+
+  <div class="sec-title">
+    <h2>Ausencias registradas</h2>
+    <p id="listCount"></p>
+  </div>
+  <div class="list" id="list"></div>
+</main>
+
+<footer>FC Barcelona × Legends Global · Equipo comercial VIP · Calendario laboral Barcelona 2026–2027</footer>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mdlTitle">
+    <div class="modal-h">
+      <h3 id="mdlTitle">Añadir días fuera</h3>
+      <p id="mdlSub">Elige quién eres, las fechas y el motivo.</p>
+    </div>
+    <div class="modal-b">
+      <div id="dayBox" hidden></div>
+      <div class="views mode" id="modeTabs"><button type="button" data-mode="add" class="on">＋ Añadir días</button><button type="button" data-mode="del">− Quitar días</button></div>
+      <div class="f" style="display:grid;gap:6px">
+        <span style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">¿Quién eres?</span>
+        <div class="who-grid" id="whoGrid"></div>
+      </div>
+      <div class="row2">
+        <label class="f">Desde<input type="date" id="fFrom" min="2026-01-01" max="2027-12-31"></label>
+        <label class="f">Hasta<input type="date" id="fTo" min="2026-01-01" max="2027-12-31"></label>
+      </div>
+      <div class="f" style="display:grid;gap:6px" id="typesWrap">
+        <span style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Motivo</span>
+        <div class="types" id="types"></div>
+      </div>
+      <label class="f" id="noteWrap">Nota (opcional)<input type="text" id="fNote" maxlength="80" placeholder="Ej.: viaje a Menorca, cubre Pol"></label>
+      <div class="summary" id="sum"></div>
+      <div class="err" id="fErr" hidden></div>
+      <div class="modal-f">
+        <button type="button" class="btn btn-ghost" id="cancel">Cancelar</button>
+        <button type="button" class="btn btn-blau" id="save">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ======================= Configuración ======================= */
+const CONFIG = {
+  SUPABASE_URL: 'https://dnzjbfoardqzbtatwyki.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRuempiZm9hcmRxemJ0YXR3eWtpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0MTk4MjcsImV4cCI6MjEwNzk5NTgyN30.qN7vZLqgzx9_4YZBkR1qFeWv1vyPIIs2C1I-_u8xLgQ',
+  TABLE: 'vacaciones_ausencias'
+};
+
+/* ======================= Datos fijos ======================= */
+const YEARS = [2026, 2027];
+const MIN_DATE = '2026-01-01', MAX_DATE = '2027-12-31';
+const TEAM = [
+  {n:'Luis',    c:'#004D98'},
+  {n:'Aina',    c:'#A50044'},
+  {n:'Eulàlia', c:'#0F8A6C'},
+  {n:'Jorge',   c:'#D9480F'},
+  {n:'Mireia',  c:'#7B3FBF'},
+  {n:'Sergi',   c:'#1F7AC9'},
+  {n:'Pol',     c:'#C2185B'},
+  {n:'Duna',    c:'#2E7D32'},
+  {n:'Adriana', c:'#B8860B'},
+  {n:'Marta',   c:'#00838F'},
+  {n:'Roger',   c:'#5D4037'}
+];
+const COLOR = Object.fromEntries(TEAM.map(p=>[p.n,p.c]));
+const TYPES = ['Vacaciones','Otros'];
+
+/* Festivos laborales en Barcelona: los de Catalunya + 2 locales por año */
+const HOLIDAYS = {
+  // 2026
+  '2026-01-01':'Año Nuevo', '2026-01-06':'Reyes', '2026-04-03':'Viernes Santo', '2026-04-06':'Lunes de Pascua',
+  '2026-05-01':'Día del Trabajo', '2026-05-25':'Segunda Pascua', '2026-06-24':'Sant Joan', '2026-08-15':'La Asunción',
+  '2026-09-11':'Diada', '2026-09-24':'La Mercè', '2026-10-12':'Hispanidad', '2026-12-08':'Inmaculada',
+  '2026-12-25':'Navidad', '2026-12-26':'Sant Esteve',
+  // 2027
+  '2027-01-01':'Año Nuevo', '2027-01-06':'Reyes', '2027-03-26':'Viernes Santo', '2027-03-29':'Lunes de Pascua',
+  '2027-05-01':'Día del Trabajo', '2027-05-17':'Segunda Pascua', '2027-06-24':'Sant Joan', '2027-09-11':'Diada',
+  '2027-09-24':'La Mercè', '2027-10-12':'Hispanidad', '2027-11-01':'Todos los Santos', '2027-12-06':'Constitución',
+  '2027-12-08':'Inmaculada', '2027-12-25':'Navidad'
+};
+const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DOW_S = ['L','M','X','J','V','S','D'];
+
+/* ======================= Utilidades ======================= */
+const $ = s => document.querySelector(s);
+const pad = n => String(n).padStart(2,'0');
+const iso = (y,m,d) => `${y}-${pad(m+1)}-${pad(d)}`;
+const parse = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); };
+const isoOf = dt => iso(dt.getFullYear(), dt.getMonth(), dt.getDate());
+const addDays = (s,n) => { const d = parse(s); d.setDate(d.getDate()+n); return isoOf(d); };
+const dim = (y,m) => new Date(y,m+1,0).getDate();
+const dowMon = dt => (dt.getDay()+6)%7;
+const initials = n => n.slice(0,2).toUpperCase();
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtShort = s => { const d = parse(s); const y = d.getFullYear(); return `${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3).toLowerCase()}${y!==NOW.getFullYear()?' '+String(y).slice(2):''}`; };
+const isWeekend = dt => dowMon(dt) >= 5;
+function workdays(from, to){
+  let n = 0; const d = parse(from), e = parse(to);
+  while (d <= e){ if (!isWeekend(d) && !HOLIDAYS[isoOf(d)]) n++; d.setDate(d.getDate()+1); }
+  return n;
+}
+
+const NOW = new Date();
+const TODAY = isoOf(NOW);
+// Índice de mes 0..23 (0 = ene 2026, 23 = dic 2027)
+const mIdx = (y,m) => (y-YEARS[0])*12 + m;
+const fromIdx = i => ({ y: YEARS[0] + Math.floor(i/12), m: i%12 });
+const CUR_IDX = Math.min(23, Math.max(0, mIdx(NOW.getFullYear(), NOW.getMonth())));
+const IS_LIVE = NOW.getFullYear() >= YEARS[0] && NOW.getFullYear() <= YEARS[YEARS.length-1];
+
+/* ======================= Estado ======================= */
+let entries = [];
+let viewIdx = CUR_IDX;
+let yearShown = fromIdx(CUR_IDX).y;
+let view = 'cal';
+let filter = null;
+let byDay = {};
+
+function index(){
+  byDay = {};
+  for (const e of entries){
+    if (!e.desde || !e.hasta) continue;
+    const d = parse(e.desde), end = parse(e.hasta);
+    let guard = 0;
+    while (d <= end && guard++ < 800){
+      (byDay[isoOf(d)] ||= []).push(e);
+      d.setDate(d.getDate()+1);
+    }
+  }
+  for (const k in byDay) byDay[k].sort((a,b)=>TEAM.findIndex(p=>p.n===a.persona)-TEAM.findIndex(p=>p.n===b.persona));
+}
+
+/* ======================= Almacenamiento ======================= */
+const store = {
+  mode: 'local', sb: null, clave: null, polling: null,
+  async init(){
+    if (!CONFIG.SUPABASE_URL || !CONFIG.SUPABASE_ANON_KEY || !window.supabase){
+      // Sin base de datos: modo demo local
+      try { entries = JSON.parse(localStorage.getItem('vac2026') || '[]'); } catch { entries = []; }
+      $('#demoBar').hidden = false; render(); return;
+    }
+    this.sb = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY, { auth: { persistSession:false } });
+    render();
+    let saved = null;
+    try { saved = localStorage.getItem('vac_clave') || sessionStorage.getItem('vac_clave'); } catch {}
+    if (saved && await this.login(saved, true)) return;
+    showGate();
+  },
+  async login(clave, silent){
+    const { data, error } = await this.sb.rpc('vac_list', { p_clave: clave });
+    if (error){
+      if (!silent) gateError(String(error.message||'').includes('clave_incorrecta') ? 'Clave incorrecta.' : 'No se pudo conectar. Revisa la conexión.');
+      return false;
+    }
+    this.clave = clave; this.mode = 'db';
+    this.apply(data);
+    hideGate();
+    if (!this.polling){
+      this.polling = setInterval(() => this.fetch(), 20000);
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && this.clave) this.fetch(); });
+    }
+    return true;
+  },
+  apply(rows){
+    entries = (rows||[]).map(r => ({ ...r, id: String(r.id) }));
+    render();
+    if (!$('#overlay').hidden && modalDay) drawDayBox();
+  },
+  async fetch(){
+    if (!this.clave) return;
+    const { data, error } = await this.sb.rpc('vac_list', { p_clave: this.clave });
+    if (error){ try { this.check(error); } catch {} return; }
+    this.apply(data);
+  },
+  check(error){
+    if (String(error?.message||'').includes('clave_incorrecta')){ logout(); gateError('La clave ha cambiado. Vuelve a entrar.'); }
+    throw error;
+  },
+  async add(e){
+    if (this.mode === 'db'){
+      const { error } = await this.sb.rpc('vac_add', { p_clave:this.clave, p_persona:e.persona, p_desde:e.desde, p_hasta:e.hasta, p_tipo:e.tipo||'Vacaciones', p_nota:e.nota||null });
+      if (error) this.check(error);
+      await this.fetch(); return;
+    }
+    e.id = 'l' + Date.now() + Math.random().toString(36).slice(2,6);
+    entries.push(e); this.saveLocal(); render();
+  },
+  async remove(id){
+    if (this.mode === 'db'){
+      const { error } = await this.sb.rpc('vac_delete', { p_clave:this.clave, p_id:id });
+      if (error) this.check(error);
+      await this.fetch(); return;
+    }
+    entries = entries.filter(x => x.id !== id); this.saveLocal(); render();
+  },
+  saveLocal(){ try { localStorage.setItem('vac2026', JSON.stringify(entries)); } catch {} }
+};
+
+/* ======================= Acceso con clave ======================= */
+function showGate(){
+  $('#gate').hidden = false; document.body.classList.add('locked');
+  $('#logoutBtn').hidden = true;
+  setTimeout(()=>$('#gatePw').focus(), 50);
+}
+function hideGate(){
+  $('#gate').hidden = true; document.body.classList.remove('locked');
+  $('#gateErr').hidden = true; $('#gatePw').value = '';
+  $('#logoutBtn').hidden = false;
+}
+function gateError(msg){ const e = $('#gateErr'); e.textContent = msg; e.hidden = false; }
+function logout(){
+  try { localStorage.removeItem('vac_clave'); sessionStorage.removeItem('vac_clave'); } catch {}
+  store.clave = null; entries = []; render(); closeModal(); showGate();
+}
+$('#gateForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const pw = $('#gatePw').value; if (!pw) return;
+  const btn = $('#gateBtn'); btn.disabled = true; btn.textContent = 'Comprobando…'; $('#gateErr').hidden = true;
+  const ok = await store.login(pw);
+  btn.disabled = false; btn.textContent = 'Entrar';
+  if (ok){
+    try {
+      if ($('#gateRemember').checked) localStorage.setItem('vac_clave', pw);
+      else sessionStorage.setItem('vac_clave', pw);
+    } catch {}
+  } else { $('#gatePw').select(); }
+});
+$('#gateShow').addEventListener('click', () => {
+  const i = $('#gatePw'); const show = i.type === 'password';
+  i.type = show ? 'text' : 'password'; $('#gateShow').textContent = show ? 'Ocultar' : 'Ver';
+});
+$('#logoutBtn').addEventListener('click', logout);
+
+/* Quitar un rango de días a una persona: recorta o parte sus periodos */
+async function removeRange(persona, a, b){
+  const hits = entries.filter(e => e.persona===persona && !(b < e.desde || a > e.hasta));
+  if (!hits.length) return 0;
+  for (const e of hits){
+    const pieces = [];
+    if (e.desde < a) pieces.push({ ...e, hasta: addDays(a,-1) });
+    if (e.hasta > b) pieces.push({ ...e, desde: addDays(b,1) });
+    for (const p of pieces){ const { id, ...rest } = p; await store.add({ ...rest, creado: Date.now() }); }
+    await store.remove(e.id);
+  }
+  return hits.length;
+}
+
+/* ======================= Render ======================= */
+function render(){
+  index();
+  renderToday(); renderTeam(); renderMonth(); renderPeople(); renderYear(); renderList();
+}
+
+function renderToday(){
+  const d = NOW;
+  $('#todayLbl').textContent = `${['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][d.getDay()]} ${d.getDate()} de ${MONTHS[d.getMonth()].toLowerCase()}`;
+  const out = [...new Set((byDay[TODAY]||[]).map(e=>e.persona))];
+  const hol = HOLIDAYS[TODAY];
+  $('#todayWho').textContent = hol ? `Festivo: ${hol}` : (out.length ? `Fuera hoy: ${out.join(', ')}` : 'Todo el equipo disponible hoy');
+}
+
+function renderTeam(){
+  const el = $('#team');
+  el.classList.toggle('filtering', !!filter);
+  el.innerHTML = '<span class="t-lbl">Filtrar</span>' +
+    `<button type="button" class="chip all ${!filter?'on':''}" style="--c:var(--accent)" data-p="">Todos</button>` +
+    TEAM.map(p => `<button type="button" class="chip ${filter===p.n?'on':''}" style="--c:${p.c}" data-p="${esc(p.n)}"><span class="av" style="background:${p.c}">${esc(initials(p.n))}</span>${esc(p.n)}</button>`).join('');
+}
+
+function renderMonth(){
+  const { y, m } = fromIdx(viewIdx);
+  $('#mTitle').textContent = `${MONTHS[m]} ${y}`;
+  $('#mNow').hidden = !(IS_LIVE && viewIdx === CUR_IDX);
+  $('#prev').disabled = viewIdx === 0; $('#next').disabled = viewIdx === 23;
+  $('#calView').hidden = view !== 'cal';
+  $('#tlView').hidden = view !== 'tl';
+  document.querySelectorAll('.layout .views button').forEach(b => b.classList.toggle('on', b.dataset.view === view));
+  if (view === 'cal') renderCal(y,m); else renderTimeline(y,m);
+}
+
+function renderCal(y,m){
+  const first = new Date(y,m,1), lead = dowMon(first), days = dim(y,m);
+  const weeks = Math.ceil((lead+days)/7);
+  const mobile = window.matchMedia('(max-width:720px)').matches;
+  const MAXL = mobile ? 6 : 4;
+  const monthA = iso(y,m,1), monthB = iso(y,m,days);
+  let html = '';
+  for (let w=0; w<weeks; w++){
+    const wStart = isoOf(new Date(y,m,1-lead+w*7));
+    const wEnd = addDays(wStart,6);
+    // Visible range of this week: only days inside the month
+    const vA = wStart < monthA ? monthA : wStart;
+    const vB = wEnd > monthB ? monthB : wEnd;
+    // Segments: one continuous bar per absence inside this week
+    const segs = entries.filter(e => e.desde && e.hasta && !(e.hasta < vA || e.desde > vB)).map(e => {
+      const a = e.desde < vA ? vA : e.desde, b = e.hasta > vB ? vB : e.hasta;
+      const col = Math.round((parse(a)-parse(wStart))/864e5);
+      const span = Math.round((parse(b)-parse(a))/864e5)+1;
+      return { e, a, b, col, span, cl: e.desde < a, cr: e.hasta > b };
+    }).sort((s,t)=> s.col-t.col || t.span-s.span || TEAM.findIndex(p=>p.n===s.e.persona)-TEAM.findIndex(p=>p.n===t.e.persona));
+    // Lane assignment
+    const lanesEnd = [];
+    for (const s of segs){
+      let l = lanesEnd.findIndex(end => end < s.col);
+      if (l === -1){ l = lanesEnd.length; lanesEnd.push(-1); }
+      lanesEnd[l] = s.col + s.span - 1; s.lane = l;
+    }
+    const shown = segs.filter(s=>s.lane < MAXL);
+    const lanes = Math.min(MAXL, lanesEnd.length);
+    const hidden = Array(7).fill(0);
+    segs.filter(s=>s.lane >= MAXL).forEach(s=>{ for (let c=s.col; c<s.col+s.span; c++) hidden[c]++; });
+    const minH = mobile ? Math.max(74, 36 + lanes*9 + (hidden.some(Boolean)?14:0)) : Math.max(110, 46 + lanes*24 + (hidden.some(Boolean)?18:4));
+    let cells = '';
+    for (let c=0;c<7;c++){
+      const dt = new Date(y,m,1-lead+w*7+c), k = isoOf(dt);
+      const inMonth = dt.getMonth() === m;
+      const hol = HOLIDAYS[k];
+      const people = [...new Set((byDay[k]||[]).map(e=>e.persona))];
+      const cls = ['cell', !inMonth&&'out', isWeekend(dt)&&'we', hol&&'hol', k===TODAY&&'today'].filter(Boolean).join(' ');
+      const workCount = (!isWeekend(dt) && !hol) ? people.length : 0;
+      cells += `<button type="button" class="${cls}" style="min-height:${minH}px" data-day="${k}" ${inMonth?'':'tabindex="-1"'} aria-label="${dt.getDate()} ${MONTHS[dt.getMonth()]}${hol?', festivo '+esc(hol):''}${people.length?', fuera: '+esc(people.join(', ')):''}">
+        <div class="num"><span>${dt.getDate()}</span>${workCount?`<span class="cnt ${workCount>=3?'hi':''}">${workCount} fuera</span>`:''}</div>
+        ${hol?`<div class="holname">${esc(hol)}</div>`:''}
+        ${inMonth && hidden[c]?`<div class="more">+${hidden[c]} más</div>`:''}
+      </button>`;
+    }
+    const bars = shown.map(s => {
+      const p = s.e.persona;
+      const n = workdays(s.e.desde, s.e.hasta);
+      return `<div class="seg ${s.cl?'cl':''} ${s.cr?'cr':''} ${filter && filter!==p?'dim':''}" style="--c:${COLOR[p]||'#888'};grid-column:${s.col+1} / span ${s.span};grid-row:${s.lane+1}">${esc(p)}${s.span>1 && !s.cl?`<small>${esc(fmtShort(s.e.desde))} → ${esc(fmtShort(s.e.hasta))} · ${n} d</small>`:''}</div>`;
+    }).join('');
+    html += `<div class="week">${cells}<div class="bars">${bars}</div></div>`;
+  }
+  $('#grid').innerHTML = html;
+}
+
+function renderTimeline(y,m){
+  const days = dim(y,m);
+  let h = `<div class="tl" style="grid-template-columns:130px repeat(${days},minmax(24px,1fr))"><div class="h" style="position:sticky;left:0;z-index:2;text-align:left;padding-left:10px">Equipo</div>`;
+  for (let d=1; d<=days; d++){
+    const dt = new Date(y,m,d), k = isoOf(dt);
+    h += `<div class="h ${isWeekend(dt)?'we':''} ${HOLIDAYS[k]?'hol':''} ${k===TODAY?'today':''}" title="${HOLIDAYS[k]?esc(HOLIDAYS[k]):''}">${DOW_S[dowMon(dt)]}<br>${d}</div>`;
+  }
+  for (const p of TEAM){
+    const dimRow = filter && filter !== p.n ? 'tl-row-dim' : '';
+    h += `<div class="name ${dimRow}"><span class="av" style="background:${p.c}">${esc(initials(p.n))}</span>${esc(p.n)}</div>`;
+    for (let d=1; d<=days; d++){
+      const dt = new Date(y,m,d), k = isoOf(dt);
+      const has = (byDay[k]||[]).some(e=>e.persona===p.n);
+      const prev = has && (byDay[isoOf(new Date(y,m,d-1))]||[]).some(e=>e.persona===p.n);
+      const next = has && (byDay[isoOf(new Date(y,m,d+1))]||[]).some(e=>e.persona===p.n);
+      const cls = ['d', isWeekend(dt)&&'we', HOLIDAYS[k]&&'hol', has&&!prev&&'start', has&&!next&&'end', dimRow].filter(Boolean).join(' ');
+      h += `<div class="${cls}" style="--c:${p.c}" data-day="${k}">${has?'<div class="bar"></div>':''}</div>`;
+    }
+  }
+  $('#tlView').innerHTML = h + '</div>';
+}
+
+function renderPeople(){
+  $('#people').innerHTML = TEAM.map(p => {
+    const mine = entries.filter(e=>e.persona===p.n);
+    const inYear = y => mine.reduce((s,e)=>{
+      const a = e.desde > `${y}-01-01` ? e.desde : `${y}-01-01`;
+      const b = e.hasta < `${y}-12-31` ? e.hasta : `${y}-12-31`;
+      return a<=b ? s+workdays(a,b) : s;
+    },0);
+    const nextE = mine.filter(e=>e.hasta>=TODAY).sort((a,b)=>a.desde.localeCompare(b.desde))[0];
+    const nx = nextE ? (nextE.desde<=TODAY ? `Fuera hasta el ${fmtShort(nextE.hasta)}` : `Próximo: ${fmtShort(nextE.desde)} – ${fmtShort(nextE.hasta)}`) : 'Sin ausencias próximas';
+    return `<button type="button" class="prow" data-p="${esc(p.n)}"><span class="av" style="background:${p.c}">${esc(initials(p.n))}</span><span class="nm">${esc(p.n)}<span class="nx">${esc(nx)}</span></span><span class="ds" title="Días laborables 2026 · 2027">${inYear(2026)} · ${inYear(2027)}</span></button>`;
+  }).join('');
+}
+
+function renderYear(){
+  const Y = yearShown;
+  $('#yTitle').textContent = `Año ${Y}`;
+  document.querySelectorAll('#yearTabs button').forEach(b => b.classList.toggle('on', +b.dataset.y === Y));
+  let html = '';
+  for (let m=0;m<12;m++){
+    const first = new Date(Y,m,1), lead = dowMon(first), days = dim(Y,m);
+    let cells = DOW_S.map(d=>`<div class="w">${d}</div>`).join('');
+    for (let i=0;i<lead;i++) cells += '<div></div>';
+    const monthPeople = new Set();
+    for (let d=1; d<=days; d++){
+      const dt = new Date(Y,m,d), k = isoOf(dt);
+      let people = [...new Set((byDay[k]||[]).map(e=>e.persona))];
+      people.forEach(p=>monthPeople.add(p));
+      if (filter) people = people.filter(p=>p===filter);
+      const hol = HOLIDAYS[k];
+      const dots = people.slice(0,3).map(p=>`<i style="--c:${COLOR[p]}"></i>`).join('');
+      cells += `<div class="md ${isWeekend(dt)?'we':''} ${hol?'hol':''} ${k===TODAY?'today':''} ${people.length?'busy':''}" title="${hol?esc(hol):''}${people.length?(hol?' · ':'')+esc(people.join(', ')):''}">${d}<span class="dots">${dots}</span></div>`;
+    }
+    const idx = mIdx(Y,m);
+    const isCur = IS_LIVE && idx === CUR_IDX;
+    html += `<button type="button" class="mini ${isCur?'current':''} ${idx===viewIdx?'sel':''}" data-i="${idx}">
+      <div class="mh"><span class="mn">${MONTHS[m]}</span>${isCur?'<span class="tag">Mes en curso</span>':`<span class="tot">${monthPeople.size?monthPeople.size+' fuera':''}</span>`}</div>
+      <div class="mg">${cells}</div></button>`;
+  }
+  $('#year').innerHTML = html;
+}
+
+function renderList(){
+  const shown = entries.filter(e=>!filter || e.persona===filter).sort((a,b)=>a.desde.localeCompare(b.desde) || a.persona.localeCompare(b.persona));
+  $('#listCount').textContent = shown.length ? `${shown.length} registro${shown.length>1?'s':''}${filter?' de '+filter:''}` : '';
+  if (!shown.length){ $('#list').innerHTML = `<div class="empty">${filter?esc(filter)+' aún no tiene días apuntados.':'Todavía no hay ausencias. Pulsa «Añadir mis días fuera» para empezar.'}</div>`; return; }
+  $('#list').innerHTML = shown.map(e => {
+    const n = workdays(e.desde,e.hasta);
+    const past = e.hasta < TODAY;
+    return `<div class="entry" style="--c:${COLOR[e.persona]||'#888'};${past?'opacity:.6':''}">
+      <span class="av">${esc(initials(e.persona||'?'))}</span>
+      <div class="info"><div class="t1">${esc(e.persona)} · ${e.desde===e.hasta?esc(fmtShort(e.desde)):esc(fmtShort(e.desde))+' → '+esc(fmtShort(e.hasta))}</div>
+      <div class="t2">${n} día${n!==1?'s':''} laborable${n!==1?'s':''}${e.nota?' · '+esc(e.nota):''}</div></div>
+      <span class="tp">${esc(e.tipo||'Vacaciones')}</span>
+      <button type="button" class="icon-btn" data-del="${esc(e.id)}" aria-label="Borrar periodo" title="Borrar periodo">✕</button>
+    </div>`;
+  }).join('');
+}
+
+/* ======================= Modal ======================= */
+let form = { persona:null, tipo:'Vacaciones', mode:'add' };
+let modalDay = null;
+
+function openModal(day, mode){
+  form = { persona:null, tipo:'Vacaciones', mode: mode || 'add' };
+  modalDay = day || null;
+  const { y, m } = fromIdx(viewIdx);
+  let start = day || (viewIdx===CUR_IDX ? TODAY : iso(y,m,1));
+  if (start < MIN_DATE) start = MIN_DATE; if (start > MAX_DATE) start = MAX_DATE;
+  $('#fFrom').value = start; $('#fTo').value = start;
+  $('#fNote').value = '';
+  $('#fErr').hidden = true;
+  drawDayBox(); drawForm();
+  $('#overlay').hidden = false;
+}
+function closeModal(){ $('#overlay').hidden = true; modalDay = null; }
+
+function drawDayBox(){
+  const box = $('#dayBox');
+  const list = modalDay ? [...new Map((byDay[modalDay]||[]).map(e=>[e.persona,e])).values()] : [];
+  if (!list.length){ box.hidden = true; box.innerHTML = ''; return; }
+  box.hidden = false;
+  box.innerHTML = `<div class="dbt">Fuera el ${esc(fmtShort(modalDay))}</div>` + list.map(e =>
+    `<div class="drow" style="--c:${COLOR[e.persona]||'#888'}">
+      <span class="dn">${esc(e.persona)}<small>${esc(fmtShort(e.desde))}${e.desde!==e.hasta?' → '+esc(fmtShort(e.hasta)):''} · ${esc(e.tipo||'Vacaciones')}</small></span>
+      <button type="button" class="sbtn" data-rmday="${esc(e.persona)}">Quitar este día</button>
+      ${e.desde!==e.hasta?`<button type="button" class="sbtn" data-rmall="${esc(e.id)}">Borrar todo el periodo</button>`:''}
+    </div>`).join('');
+}
+
+function drawForm(){
+  const del = form.mode === 'del';
+  document.querySelectorAll('#modeTabs button').forEach(b => b.classList.toggle('on', b.dataset.mode === form.mode));
+  $('#mdlTitle').textContent = del ? 'Quitar días' : 'Añadir días fuera';
+  $('#mdlSub').textContent = del ? 'Elige quién eres y los días que ya no vas a estar fuera.' : 'Elige quién eres, las fechas y el motivo.';
+  $('#typesWrap').hidden = del; $('#noteWrap').hidden = del;
+  const sv = $('#save'); sv.textContent = del ? 'Quitar días' : 'Guardar';
+  sv.classList.toggle('btn-grana', del); sv.classList.toggle('btn-blau', !del);
+  $('#whoGrid').innerHTML = TEAM.map(p=>`<button type="button" class="${form.persona===p.n?'on':''}" style="--c:${p.c}" data-who="${esc(p.n)}"><span class="av" style="background:${p.c}">${esc(initials(p.n))}</span>${esc(p.n)}</button>`).join('');
+  $('#types').innerHTML = TYPES.map(t=>`<button type="button" class="${form.tipo===t?'on':''}" data-t="${esc(t)}">${esc(t)}</button>`).join('');
+  drawSummary();
+}
+
+function drawSummary(){
+  const a = $('#fFrom').value, b = $('#fTo').value;
+  if (!a || !b || b < a){ $('#sum').innerHTML = 'Elige un rango de fechas válido.'; return; }
+  if (form.mode === 'del'){
+    if (!form.persona){ $('#sum').innerHTML = 'Elige quién eres para ver qué días se quitarían.'; return; }
+    let n = 0; const d = parse(a), e = parse(b);
+    while (d<=e){ if ((byDay[isoOf(d)]||[]).some(x=>x.persona===form.persona)) n++; d.setDate(d.getDate()+1); }
+    $('#sum').innerHTML = n ? `Se quitarán <b>${n} día${n!==1?'s':''}</b> del calendario de ${esc(form.persona)}. Si caen en mitad de un periodo, el resto se mantiene.` : `${esc(form.persona)} no tiene días apuntados en esas fechas.`;
+    return;
+  }
+  const n = workdays(a,b);
+  const cal = Math.round((parse(b)-parse(a))/864e5)+1;
+  const hols = Object.keys(HOLIDAYS).filter(k=>k>=a && k<=b && !isWeekend(parse(k)));
+  const others = new Set();
+  const d = parse(a), e = parse(b);
+  while (d<=e){ (byDay[isoOf(d)]||[]).forEach(x=>{ if (x.persona!==form.persona) others.add(x.persona); }); d.setDate(d.getDate()+1); }
+  $('#sum').innerHTML = `<b>${n} día${n!==1?'s':''} laborable${n!==1?'s':''}</b> · ${cal} natural${cal!==1?'es':''}` +
+    (hols.length?`<div>Incluye festivo: ${hols.map(k=>esc(HOLIDAYS[k])).join(', ')} (no cuenta)</div>`:'') +
+    (others.size?`<div class="warn">Coincides con: ${esc([...others].join(', '))}</div>`:'');
+}
+
+function fail(msg){ const err = $('#fErr'); err.textContent = msg; err.hidden = false; }
+const errMsg = e => 'No se pudo guardar. Revisa la conexión e inténtalo de nuevo.';
+
+async function save(){
+  const a = $('#fFrom').value, b = $('#fTo').value;
+  $('#fErr').hidden = true;
+  if (!form.persona) return fail('Elige quién eres.');
+  if (!a || !b) return fail('Pon las dos fechas.');
+  if (b < a) return fail('La fecha «hasta» no puede ser anterior a «desde».');
+  if (a < MIN_DATE || b > MAX_DATE) return fail('Las fechas deben estar entre 2026 y 2027.');
+  const btn = $('#save'); btn.disabled = true;
+  try{
+    if (form.mode === 'del'){
+      const n = await removeRange(form.persona, a, b);
+      if (!n){ fail(`${form.persona} no tiene días apuntados en esas fechas.`); return; }
+      closeModal(); toast(`Días quitados: ${form.persona}, ${fmtShort(a)}${a!==b?' → '+fmtShort(b):''}`);
+    } else {
+      const dup = entries.some(e=>e.persona===form.persona && !(b < e.desde || a > e.hasta));
+      if (dup) return fail(`${form.persona} ya tiene días apuntados que se solapan con estas fechas. Quítalos primero o elige otras fechas.`);
+      await store.add({ persona:form.persona, desde:a, hasta:b, tipo:form.tipo, nota:$('#fNote').value.trim().slice(0,80), creado:Date.now() });
+      closeModal();
+      viewIdx = mIdx(parse(a).getFullYear(), parse(a).getMonth()); yearShown = parse(a).getFullYear();
+      render();
+      toast(`Guardado: ${form.persona}, ${fmtShort(a)}${a!==b?' → '+fmtShort(b):''}`);
+    }
+  }catch(e){ fail(errMsg(e)); }
+  finally{ btn.disabled = false; }
+}
+
+let toastT;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(()=>t.hidden=true, 2800); }
+
+/* ======================= Eventos ======================= */
+$('#addBtn').addEventListener('click', ()=>openModal());
+$('#cancel').addEventListener('click', closeModal);
+$('#overlay').addEventListener('click', e=>{ if (e.target.id==='overlay') closeModal(); });
+document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('#overlay').hidden) closeModal(); });
+$('#save').addEventListener('click', save);
+$('#fFrom').addEventListener('change', ()=>{ if ($('#fTo').value < $('#fFrom').value) $('#fTo').value = $('#fFrom').value; drawSummary(); });
+$('#fTo').addEventListener('change', drawSummary);
+$('#whoGrid').addEventListener('click', e=>{ const b = e.target.closest('[data-who]'); if (!b) return; form.persona = b.dataset.who; drawForm(); });
+$('#types').addEventListener('click', e=>{ const b = e.target.closest('[data-t]'); if (!b) return; form.tipo = b.dataset.t; drawForm(); });
+$('#modeTabs').addEventListener('click', e=>{ const b = e.target.closest('[data-mode]'); if (!b) return; form.mode = b.dataset.mode; $('#fErr').hidden = true; drawForm(); });
+
+$('#dayBox').addEventListener('click', async e=>{
+  const one = e.target.closest('[data-rmday]'), all = e.target.closest('[data-rmall]');
+  if (!one && !all) return;
+  e.target.disabled = true;
+  try{
+    if (one){ await removeRange(one.dataset.rmday, modalDay, modalDay); toast(`Quitado el ${fmtShort(modalDay)} de ${one.dataset.rmday}`); }
+    else {
+      const ent = entries.find(x=>x.id===all.dataset.rmall); if (!ent) return;
+      if (!confirm(`¿Borrar todo el periodo de ${ent.persona}: ${fmtShort(ent.desde)} → ${fmtShort(ent.hasta)}?`)) { e.target.disabled = false; return; }
+      await store.remove(ent.id); toast('Periodo borrado');
+    }
+    if (store.mode === 'local') drawDayBox();
+    if (!(byDay[modalDay]||[]).length) $('#dayBox').hidden = true;
+  }catch(err){ fail(errMsg(err)); e.target.disabled = false; }
+});
+
+const goTo = i => { viewIdx = Math.max(0, Math.min(23, i)); yearShown = fromIdx(viewIdx).y; renderMonth(); renderYear(); };
+$('#prev').addEventListener('click', ()=>goTo(viewIdx-1));
+$('#next').addEventListener('click', ()=>goTo(viewIdx+1));
+$('#goNow').addEventListener('click', ()=>goTo(CUR_IDX));
+document.querySelector('.layout .views').addEventListener('click', e=>{ const b = e.target.closest('[data-view]'); if (!b) return; view = b.dataset.view; renderMonth(); });
+$('#yearTabs').addEventListener('click', e=>{ const b = e.target.closest('[data-y]'); if (!b) return; yearShown = +b.dataset.y; renderYear(); });
+
+$('#grid').addEventListener('click', e=>{ const c = e.target.closest('.cell'); if (!c || c.classList.contains('out')) return; openModal(c.dataset.day); });
+$('#tlView').addEventListener('click', e=>{ const c = e.target.closest('[data-day]'); if (c) openModal(c.dataset.day); });
+$('#year').addEventListener('click', e=>{ const b = e.target.closest('[data-i]'); if (!b) return; goTo(+b.dataset.i); document.querySelector('.layout').scrollIntoView({behavior:'smooth', block:'start'}); });
+
+function setFilter(p){ filter = (p && filter!==p) ? p : null; renderTeam(); renderMonth(); renderYear(); renderList(); }
+$('#team').addEventListener('click', e=>{ const b = e.target.closest('[data-p]'); if (b) setFilter(b.dataset.p); });
+$('#people').addEventListener('click', e=>{ const b = e.target.closest('[data-p]'); if (b) setFilter(b.dataset.p); });
+
+$('#list').addEventListener('click', async e=>{
+  const b = e.target.closest('[data-del]'); if (!b) return;
+  const ent = entries.find(x=>x.id===b.dataset.del); if (!ent) return;
+  if (!confirm(`¿Borrar ${ent.persona}: ${fmtShort(ent.desde)} → ${fmtShort(ent.hasta)}?`)) return;
+  try { await store.remove(ent.id); toast('Ausencia borrada'); }
+  catch(err){ toast('No se pudo borrar. Inténtalo de nuevo.'); }
+});
+
+window.matchMedia('(max-width:720px)').addEventListener?.('change', ()=>renderMonth());
+
+store.init();
+
+</script>
+</body>
+</html>
